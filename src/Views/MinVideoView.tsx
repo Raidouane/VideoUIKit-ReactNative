@@ -82,20 +82,22 @@ const UserVideoWithFallback = (props: {
 };
 
 const UserVideo = (props: {user: UidInterface}) => {
-  const {styleProps} = useContext(PropsContext);
+  const {styleProps, rtcProps} = useContext(PropsContext);
   // const {rtcUidRef} = useContext(RtcContext);
+  const renderMode = rtcProps.mode ?? RenderModeType.RenderModeHidden;
+
   const {minViewStyles} = styleProps || {};
   return props.user.uid === 'local' ? (
     <RtcSurfaceView
       style={{...styles.minView, ...(minViewStyles as object)}}
-      canvas={{renderMode: RenderModeType.RenderModeFit, uid: 0}}
+      canvas={{renderMode, uid: 0}}
       zOrderMediaOverlay={true}
     />
   ) : (
     <RtcSurfaceView
       style={{...styles.minView, ...(minViewStyles as object)}}
       canvas={{
-        renderMode: RenderModeType.RenderModeFit,
+        renderMode,
         uid: props.user.uid as number,
       }}
       zOrderMediaOverlay={true}
