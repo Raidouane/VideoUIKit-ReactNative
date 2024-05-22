@@ -5,10 +5,10 @@ import React from 'react';
 import {View} from 'react-native';
 import RtcConfigure from './RtcConfigure';
 import {
-  PropsProvider,
-  PropsInterface,
-  Layout,
-  AgoraUIKitProps,
+    PropsProvider,
+    PropsInterface,
+    Layout,
+    AgoraUIKitProps,
 } from './Contexts/PropsContext';
 import LocalControls from './Controls/LocalControls';
 import GridVideo from './Views/GridVideo';
@@ -22,29 +22,29 @@ import PopUp from './Controls/Remote/RemoteMutePopUp';
  * @returns Renders the UIKit
  */
 const AgoraUIKitv3: React.FC<PropsInterface> = (props) => {
-  const {layout} = props.rtcProps;
-  return (
-    <PropsProvider value={props}>
-      <View style={[containerStyle, props.styleProps?.UIKitContainer]}>
-        <RtcConfigure key={props.rtcProps.channel}>
-          <LocalUserContext>
-            {props.rtcProps.disableRtm ? (
-              <>
-                {layout === Layout.Grid ? <GridVideo /> : <PinnedVideo />}
-                <LocalControls />
-              </>
-            ) : (
-              <RtmConfigure>
-                {layout === Layout.Grid ? <GridVideo /> : <PinnedVideo />}
-                <LocalControls />
-                <PopUp />
-              </RtmConfigure>
-            )}
-          </LocalUserContext>
-        </RtcConfigure>
-      </View>
-    </PropsProvider>
-  );
+    const {layout} = props.rtcProps;
+    return (
+        <PropsProvider value={props}>
+            <View style={[containerStyle, props.styleProps?.UIKitContainer]}>
+                <RtcConfigure key={props.rtcProps.channel} agoraEngineRef={props.agoraEngineRef}>
+                    <LocalUserContext>
+                        {props.rtcProps.disableRtm ? (
+                            <>
+                                {layout === Layout.Grid ? <GridVideo/> : <PinnedVideo/>}
+                                <LocalControls/>
+                            </>
+                        ) : (
+                            <RtmConfigure>
+                                {layout === Layout.Grid ? <GridVideo/> : <PinnedVideo/>}
+                                <LocalControls/>
+                                <PopUp/>
+                            </RtmConfigure>
+                        )}
+                    </LocalUserContext>
+                </RtcConfigure>
+            </View>
+        </PropsProvider>
+    );
 };
 
 /**
@@ -52,33 +52,34 @@ const AgoraUIKitv3: React.FC<PropsInterface> = (props) => {
  * @returns Renders the UIKit
  */
 const AgoraUIKit: React.FC<AgoraUIKitProps> = (props) => {
-  const {rtcUid, rtcToken, rtmToken, rtmUid, ...restConnectonData} =
-    props.connectionData;
-  const adaptedProps: PropsInterface = {
-    rtcProps: {
-      uid: rtcUid,
-      token: rtcToken,
-      ...restConnectonData,
-      ...props.settings,
-      callActive: true,
-    },
-    rtmProps: {
-      token: rtmToken,
-      uid: rtmUid,
-      ...restConnectonData,
-      ...props.settings,
-    },
-  };
+    const {rtcUid, rtcToken, rtmToken, rtmUid, ...restConnectonData} =
+        props.connectionData;
+    const adaptedProps: PropsInterface = {
+        rtcProps: {
+            uid: rtcUid,
+            token: rtcToken,
+            ...restConnectonData,
+            ...props.settings,
+            callActive: true,
+        },
+        rtmProps: {
+            token: rtmToken,
+            uid: rtmUid,
+            ...restConnectonData,
+            ...props.settings,
+        },
+    };
 
-  return (
-    <AgoraUIKitv3
-      rtcProps={adaptedProps.rtcProps}
-      rtmProps={adaptedProps.rtmProps}
-      callbacks={props.rtcCallbacks}
-      rtmCallbacks={props.rtmCallbacks}
-      styleProps={props.styleProps}
-    />
-  );
+    return (
+        <AgoraUIKitv3
+            agoraEngineRef={props.agoraEngineRef}
+            rtcProps={adaptedProps.rtcProps}
+            rtmProps={adaptedProps.rtmProps}
+            callbacks={props.rtcCallbacks}
+            rtmCallbacks={props.rtmCallbacks}
+            styleProps={props.styleProps}
+        />
+    );
 };
 
 const containerStyle = {backgroundColor: '#000', flex: 1};

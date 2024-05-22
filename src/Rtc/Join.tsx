@@ -6,18 +6,22 @@ import {Platform} from 'react-native';
 
 const Join: React.FC<
   PropsWithChildren<{
+    agoraEngineRef?: React.MutableRefObject<IRtcEngine>
     precall: boolean;
     engineRef: React.MutableRefObject<IRtcEngine>;
     uidState: UidStateInterface;
     dispatch: DispatchType;
     joinState: React.MutableRefObject<boolean>;
   }>
-> = ({children, precall, engineRef, uidState, dispatch, joinState}) => {
+> = ({children, precall, agoraEngineRef, engineRef, uidState, dispatch, joinState}) => {
   // let joinState = useRef(false);
   const {rtcProps} = useContext(PropsContext);
 
   useEffect(() => {
     const engine = engineRef.current;
+    if (engine && agoraEngineRef)
+      agoraEngineRef.current = engine;
+
     async function leave() {
       try {
         console.log('Leaving RTC channel');

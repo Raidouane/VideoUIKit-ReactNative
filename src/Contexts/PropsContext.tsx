@@ -217,6 +217,10 @@ export interface RtcConnectionData {
  */
 export interface RtcSettings {
   /**
+   * Props to control Agora RTC engine (like swapCamera, mute, ...)
+   */
+  agoraEngineRef?: React.RefObject<any>
+  /**
    * Set to true to enable active speaker callback, switches the pinned video to active speaker if you're using the pinned layout. (default: false)
    */
   dual?: boolean | null;
@@ -383,6 +387,10 @@ export interface Settings extends RtcSettings, RtmSettings {}
  */
 export interface AgoraUIKitProps {
   /**
+   * Props to control Agora RTC engine (like swapCamera, mute, ...)
+   */
+  agoraEngineRef?: React.RefObject<any>
+  /**
    * Props to setup the Agora SDK connection
    */
   connectionData: ConnectionData;
@@ -406,6 +414,7 @@ export interface AgoraUIKitProps {
 
 export type rtcCallbacks = Partial<CallbacksInterface>;
 export interface PropsInterface {
+  agoraEngineRef?: React.RefObject<any>;
   rtcProps: RtcPropsInterface;
   rtmProps?: RtmPropsInterface;
   styleProps?: Partial<StylePropInterface>;
