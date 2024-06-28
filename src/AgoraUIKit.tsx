@@ -31,12 +31,12 @@ const AgoraUIKitv3: React.FC<PropsInterface> = (props) => {
                         {props.rtcProps.disableRtm ? (
                             <>
                                 {layout === Layout.Grid ? <GridVideo/> : <PinnedVideo/>}
-                                <LocalControls/>
+                                <LocalControls agoraEngineRef={props.agoraEngineRef}/>
                             </>
                         ) : (
                             <RtmConfigure>
                                 {layout === Layout.Grid ? <GridVideo/> : <PinnedVideo/>}
-                                <LocalControls/>
+                                <LocalControls agoraEngineRef={props.agoraEngineRef}/>
                                 <PopUp/>
                             </RtmConfigure>
                         )}

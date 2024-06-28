@@ -19,8 +19,21 @@ const Join: React.FC<
 
   useEffect(() => {
     const engine = engineRef.current;
-    if (engine && agoraEngineRef)
+    if (engine && agoraEngineRef) {
+      const muteVideo = async (isMute) => {
+        dispatch({
+          type: 'LocalMuteVideo',
+          value: [isMute ? ToggleState.disabling : ToggleState.enabling],
+        });
+        await engine.muteLocalVideoStream(isMute);
+        dispatch({
+          type: 'LocalMuteVideo',
+          value: [isMute ? ToggleState.disabled : ToggleState.enabled],
+        });
+      }
       agoraEngineRef.current = engine;
+      agoraEngineRef.current.muteVideo = muteVideo;
+    }
 
     async function leave() {
       try {
