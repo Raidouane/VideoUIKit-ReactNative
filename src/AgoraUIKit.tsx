@@ -26,6 +26,11 @@ const AgoraUIKitv3: React.FC<PropsInterface> = (props) => {
     return (
         <PropsProvider value={props}>
             <View style={[containerStyle, props.styleProps?.UIKitContainer]}>
+                {props.loader && (
+                    <View style={{position: 'absolute', top: 0, height: '100%', width: '100%', display: 'flex', justifyContent: 'center'}}>
+                        {props.loader}
+                    </View>
+                )}
                 <RtcConfigure key={props.rtcProps.channel} agoraEngineRef={props.agoraEngineRef}>
                     <LocalUserContext>
                         {props.rtcProps.disableRtm ? (
@@ -78,6 +83,8 @@ const AgoraUIKit: React.FC<AgoraUIKitProps> = (props) => {
             callbacks={props.rtcCallbacks}
             rtmCallbacks={props.rtmCallbacks}
             styleProps={props.styleProps}
+            loader={props.loader}
+
         />
     );
 };
