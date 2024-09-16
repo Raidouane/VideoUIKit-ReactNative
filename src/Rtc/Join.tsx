@@ -33,6 +33,11 @@ const Join: React.FC<
       }
       agoraEngineRef.current = engine;
       agoraEngineRef.current.muteVideo = muteVideo;
+      const muteAllStreamers = async (isMute) => {
+        const res = await engineRef.current.muteAllRemoteAudioStreams(true);
+      }
+      agoraEngineRef.current.muteAllStreamers = muteAllStreamers;
+
     }
 
     async function leave() {
